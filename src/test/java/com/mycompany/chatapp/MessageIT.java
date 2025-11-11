@@ -139,5 +139,104 @@ public class MessageIT {
         Message.clearMessages();
 
     }
+
+    /**
+     * Test of displaySendersAndRecipients method, of class Message.
+     */
+    @Test
+    public void testDisplaySendersAndRecipients() {
+        System.out.println("displaySendersAndRecipients");
+        Message instance = new Message();
+        String expResult = "";
+        String result = instance.displaySendersAndRecipients();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of displayLongestMessage method, of class Message.
+     */
+    @Test
+    public void testDisplayLongestMessage() {
+        System.out.println("displayLongestMessage");
+        Message instance = new Message();
+        String expResult = "";
+        String result = instance.displayLongestMessage();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of searchByMessageID method, of class Message.
+     */
+    @Test
+    public void testSearchByMessageID() {
+        System.out.println("searchByMessageID");
+        String id = "";
+        Message instance = new Message();
+        String expResult = "";
+        String result = instance.searchByMessageID(id);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of searchByRecipient method, of class Message.
+     */
+    @Test
+    public void testSearchByRecipient() {
+        System.out.println("searchByRecipient");
+        String rec = "";
+        Message instance = new Message();
+        String expResult = "";
+        String result = instance.searchByRecipient(rec);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of deleteByMessageHash method, of class Message.
+     */
+    @Test
+    public void testDeleteByMessageHash() {
+        System.out.println("deleteByMessageHash");
+        String hash = "";
+        Message instance = new Message();
+        boolean expResult = false;
+        boolean result = instance.deleteByMessageHash(hash);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of displayReport method, of class Message.
+     */
+    @Test
+    public void testDisplayReport() {
+        System.out.println("displayReport");
+        Message instance = new Message();
+        String expResult = "";
+        String result = instance.displayReport();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of loadStoredMessagesFromJSON method, of class Message.
+     */
+    @Test
+    public void testLoadStoredMessagesFromJSON() {
+        System.out.println("loadStoredMessagesFromJSON");
+        Message instance = new Message();
+        instance.loadStoredMessagesFromJSON();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

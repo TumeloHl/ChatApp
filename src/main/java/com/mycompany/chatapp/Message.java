@@ -21,6 +21,13 @@ public class Message {
     private static int idCounter = 1; // Auto ID generator
     private static ArrayList<Message> sentMessages = new ArrayList<>();
 
+    // === PART 3 ARRAYS ===
+    private static ArrayList<String> sentMessagesArray = new ArrayList<>();
+    private static ArrayList<String> disregardedMessagesArray = new ArrayList<>();
+    private static ArrayList<String> storedMessagesArray = new ArrayList<>();
+    private static ArrayList<String> messageHashArray = new ArrayList<>();
+    private static ArrayList<String> messageIDArray = new ArrayList<>();
+
     // Boolean: checkMessageID() — still needed for testing
     public boolean checkMessageID(String id) {
         return id != null && id.length() <= 10 && !id.trim().isEmpty();
@@ -90,12 +97,22 @@ public class Message {
         if (choice == 0) {
             sentMessages.add(this);
             totalMessages++;
+
+            // populate arrays
+            sentMessagesArray.add(messageText);
+            messageHashArray.add(messageHash);
+            messageIDArray.add(messageID);
+
             JOptionPane.showMessageDialog(null, "Message sent!\nMessage ID: " + messageID);
             return "Message Sent";
+
         } else if (choice == 1) {
+            disregardedMessagesArray.add(messageText);
             JOptionPane.showMessageDialog(null, "Message disregarded.");
             return "Disregarded";
+
         } else if (choice == 2) {
+            storedMessagesArray.add(messageText);
             storeMessage();
             return "Stored";
         }
@@ -166,5 +183,98 @@ public class Message {
         sentMessages.clear();
         totalMessages = 0;
         idCounter = 1;
+        sentMessagesArray.clear();
+        disregardedMessagesArray.clear();
+        storedMessagesArray.clear();
+        messageHashArray.clear();
+        messageIDArray.clear();
+    }
+
+    // === PART 3 METHODS ===
+
+    // a) Display sender and recipient of all sent messages
+    public String displaySendersAndRecipients() {
+        if (sentMessages.isEmpty()) return "No messages found.";
+        StringBuilder sb = new StringBuilder();
+        for (Message m : sentMessages) {
+            sb.append("Sender: You, Recipient: ").append(m.recipient).append("\n");
+        }
+        return sb.toString();
+    }
+
+    // b) Display the longest sent message
+    public String displayLongestMessage() {
+        if (sentMessages.isEmpty()) return "No messages found.";
+        Message longest = sentMessages.get(0);
+        for (Message m : sentMessages) {
+            if (m.messageText.length() > longest.messageText.length()) {
+                longest = m;
+            }
+        }
+        return longest.messageText;
+    }
+
+    // c) Search for a message ID and display recipient + message
+    public String searchByMessageID(String id) {
+        for (Message m : sentMessages) {
+            if (m.messageID.equals(id)) {
+                return "Recipient: " + m.recipient + ", Message: " + m.messageText;
+            }
+        }
+        return "Message ID not found.";
+    }
+
+    // d) Search for all messages sent to a particular recipient
+    public String searchByRecipient(String rec) {
+        StringBuilder sb = new StringBuilder();
+        for (Message m : sentMessages) {
+            if (m.recipient.equals(rec)) {
+                sb.append(m.messageText).append("\n");
+            }
+        }
+        return sb.length() == 0 ? "No messages for this recipient." : sb.toString();
+    }
+
+    // e) Delete a message using the message hash
+    public boolean deleteByMessageHash(String hash) {
+        Iterator<Message> it = sentMessages.iterator();
+        while (it.hasNext()) {
+            Message m = it.next();
+            if (m.messageHash.equals(hash)) {
+                it.remove();
+                messageHashArray.remove(hash);
+                messageIDArray.remove(m.messageID);
+                totalMessages--;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // f) Display a report listing full details of all sent messages
+    public String displayReport() {
+        if (sentMessages.isEmpty()) return "No sent messages.";
+        StringBuilder sb = new StringBuilder("=== SENT MESSAGES REPORT ===\n");
+        for (Message m : sentMessages) {
+            sb.append("Message ID: ").append(m.messageID).append("\n")
+              .append("Recipient: ").append(m.recipient).append("\n")
+              .append("Message: ").append(m.messageText).append("\n")
+              .append("Hash: ").append(m.messageHash).append("\n\n");
+        }
+        sb.append("Total messages sent: ").append(totalMessages);
+        return sb.toString();
+    }
+
+    // Optional: load stored messages into array
+    public void loadStoredMessagesFromJSON() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("messages.json"))) {
+            String line;
+            storedMessagesArray.clear();
+            while ((line = reader.readLine()) != null) {
+                storedMessagesArray.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading stored messages: " + e.getMessage());
+        }
     }
 }
